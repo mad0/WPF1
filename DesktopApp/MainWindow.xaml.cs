@@ -26,13 +26,20 @@ namespace DesktopApp
     
     public partial class MainWindow : Window
     {
-        getIP moj = new getIP();
+
+        public string dane
+        {
+            get;set;
+        }
         NotifyIcon nIcon = new NotifyIcon();
         public MainWindow()
         {
+            mojIP();
             InitializeComponent();
             nIcon.Click += iconDoubleClick;
-            this.DataContext = moj;
+            Console.WriteLine(dane);
+         
+            this.DataContext = dane;
         }
 
         void iconDoubleClick(object sender, EventArgs e)
@@ -71,11 +78,9 @@ namespace DesktopApp
             this.ShowInTaskbar = false;
             //is.nIcon.ShowBalloonTip(5000, "Hi", "This is a BallonTip from Windows Notification", ToolTipIcon.Info);
         }
-       public class getIP
-        {
-            public string mojIP {
-                get;  set; }
-            public getIP()
+
+        
+            private void mojIP()
             {
                 string host = Dns.GetHostName();
                 //IPAddress[] rr = Dns.GetHostAddresses("");
@@ -93,13 +98,12 @@ namespace DesktopApp
                 {
                     link = "Disconnected";
                 }
-                mojIP = "Link:\t\t" +link+"\n"+
+                dane = "Link:\t\t" +link+"\n"+
                         "Nazwa:\t\t" + host + "\n" +
                         "Adres IP:\t\t" + adresIP + "\n" +
                         "Odebrano:\t" + (int)receiv / 1024000 + " MB\n" +
                         "Wysłano:\t\t" + (int)sent / 1024000 + " MB";
-               // BindingExpression bindy = moj.
-            }    
+               // BindingExpression bindy = moj.   
         }
     }
 }

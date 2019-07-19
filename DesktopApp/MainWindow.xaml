@@ -18,7 +18,7 @@
                 <Image Width="15" Height="15" Source="..\Resources\minim1.png" MouseDown="toTray"/>
             </Button>
         </Canvas>
-    <Label x:Name="IP" HorizontalAlignment="Left" Content="{Binding mojIP, UpdateSourceTrigger=PropertyChanged}" Background="#FF68FF00" Canvas.Left="40"   Canvas.Top="55" Width="240" Grid.Row="1" Margin="10,20,10,0"   Height="100" Foreground="Black" Opacity="0.75" FontSize="13"   />
+    <Label x:Name="IP" HorizontalAlignment="Left" Content="{Binding dane, UpdateSourceTrigger=PropertyChanged}" Background="#FF68FF00" Canvas.Left="40"   Canvas.Top="55" Width="240" Grid.Row="1" Margin="10,20,10,0"   Height="100" Foreground="Black" Opacity="0.75" FontSize="13"   />
     </StackPanel>
 
 </Window>
