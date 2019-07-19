@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Diagnostics;
 
 namespace DesktopApp
 {
@@ -23,11 +26,13 @@ namespace DesktopApp
     
     public partial class MainWindow : Window
     {
+        getIP moj = new getIP();
         NotifyIcon nIcon = new NotifyIcon();
         public MainWindow()
         {
             InitializeComponent();
             nIcon.Click += iconDoubleClick;
+            this.DataContext = moj;
         }
 
         void iconDoubleClick(object sender, EventArgs e)
@@ -59,14 +64,42 @@ namespace DesktopApp
 
         private void toTray(object sender, MouseButtonEventArgs e)
         {
-            
             this.WindowState = System.Windows.WindowState.Minimized;
             this.nIcon.Icon = new Icon(@"../Debug/Icon1.ico");
            //con.Icon = ((System.Drawing.Icon)(Properties.Resources.ResourceManager.GetObject("$this.Icon")));
             this.nIcon.Visible = true;
             this.ShowInTaskbar = false;
             //is.nIcon.ShowBalloonTip(5000, "Hi", "This is a BallonTip from Windows Notification", ToolTipIcon.Info);
-
+        }
+       public class getIP
+        {
+            public string mojIP {
+                get;  set; }
+            public getIP()
+            {
+                string host = Dns.GetHostName();
+                //IPAddress[] rr = Dns.GetHostAddresses("");
+                string adresIP = Dns.GetHostEntry(host).AddressList[1].ToString();
+                double receiv = NetworkInterface.GetAllNetworkInterfaces()[1].GetIPv4Statistics().BytesReceived;
+                double sent = NetworkInterface.GetAllNetworkInterfaces()[1].GetIPv4Statistics().BytesSent;
+                //Console.WriteLine((int)reciv/1024000);
+                //Console.WriteLine((int)sent/1024000);
+                string link = null;
+                if (System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
+                {
+                    link = "Connected";
+                }
+                else
+                {
+                    link = "Disconnected";
+                }
+                mojIP = "Link:\t\t" +link+"\n"+
+                        "Nazwa:\t\t" + host + "\n" +
+                        "Adres IP:\t\t" + adresIP + "\n" +
+                        "Odebrano:\t" + (int)receiv / 1024000 + " MB\n" +
+                        "Wysłano:\t\t" + (int)sent / 1024000 + " MB";
+               // BindingExpression bindy = moj.
+            }    
         }
     }
 }
